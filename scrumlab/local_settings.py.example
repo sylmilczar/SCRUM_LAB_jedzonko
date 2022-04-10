@@ -1,0 +1,15 @@
+# Database
+# https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+
+
+# You need to create file named local_settings.py with your data
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': '',
+        'HOST': '',
+        'PASSWORD': '',
+        'USER': '',
+        'PORT':
+    }
+}

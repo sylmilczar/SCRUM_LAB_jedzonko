@@ -1,0 +1,82 @@
+{% extends "__base__.html" %}
+{% block title %}{% endblock %}
+{% block content %}
+    <div class="dashboard-content border-dashed p-3 m-4 view-height">
+
+        <div class="row border-bottom border-3 p-1 m-1">
+            <div class="col noPadding">
+                <h3 class="color-header text-uppercase">Lista
+                    Przepisów <p>Ilość przepisów {% if message_search %}
+                        na podstawie frazy "<i style="background-color:yellow;" id="searched_phrase">{{ message_search }}</i>"
+                    {% endif %}: {{ count }}</p></h3>
+            </div>
+            <div class="col d-flex justify-content-end mb-2 noPadding">
+                <a href="{% url "add_recipe_to_plan" %}"
+                   class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">dodaj przepis do planu</span>
+                </a>
+            </div>
+            <div class="col noPadding d-flex justify-content-end mb-2"><a
+                    href="{% url 'recipe_add_view' %}"
+                    class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Dodaj
+                przepis</a></div>
+        </div>
+        <div class="schedules-content">
+            <table class="table border-bottom">
+                <thead>
+                <tr class="d-flex text-color-darker">
+                    <th scope="col" class="col-1">ID</th>
+                    <th scope="col" class="col-2">NAZWA</th>
+                    <th scope="col" class="col-7">OPIS</th>
+                    <th scope="col" class="col-2 center">AKCJE</th>
+                </tr>
+                </thead>
+                <tbody class="text-color-lighter">
+                {% for recipe in recip %}
+
+
+
+            <tr class="d-flex">
+                <td id="{{ recipe.id }}" scope="row" class="col-1">{{ recipe.id }}</td>
+                <td class="col-2 search_yellow">
+                    {{ recipe.name}} ({{ recipe.votes }})
+                </td>
+                <td class="col-7 search_yellow">{{ recipe.description }}
+                </td>
+                <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
+                    <a href="{% url 'recipe_remove' recipe.id %}"
+                       class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+                    <a href="/recipe/{{ recipe.id}}/"
+                       class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
+                    <a href="/recipe/modify/{{ recipe.id }}"
+                       class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
+                </td>
+            </tr>
+
+
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if recip.has_other_pages %}
+            <ul class="pagination">
+                {% if recip.has_previous %}
+                    <li><a href="?page={{ recip.previous_page_number }}">< poprzednia</a></li>
+                {% else %}
+                    <li class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in recip.paginator.page_range %}
+                    {% if recip.number == i %}
+                        <li class="active"><span>{{ i }} <span class="sr-only">(| current |)</span></span></li>
+                    {% else %}
+                        <li><a href="?page={{ i }}">| {{ i }} |</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if recip.has_next %}
+                    <li><a href="?page={{ recip.next_page_number }}">następna ></a></li>
+                {% else %}
+                    <li class="disabled"><span>&raquo;</span></li>
+                {% endif %}
+            </ul>
+        {% endif %}
+    </div>
+{% endblock content %}
