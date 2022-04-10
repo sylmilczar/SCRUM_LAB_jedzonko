@@ -209,7 +209,6 @@ dmypy.json
 [Ss]cripts
 pyvenv.cfg
 pip-selfcheck.json
-env/*
 venv/*
 .idea/*
 .DS_Store
